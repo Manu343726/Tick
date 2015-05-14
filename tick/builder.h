@@ -305,7 +305,13 @@ struct tick_private_trait_ ## name; \
 template<class... T> \
 struct name \
 : tick::models<tick_private_trait_ ## name, T...> \
-{}; \
+{                                       \
+    template<typename... Ts>            \
+    friend constexpr bool name ## _c () \
+    {                                   \
+        return name<Ts...>::value;      \
+    }                                   \
+};                                      \
 struct tick_private_trait_ ## name \
 : tick::detail::base_requires, tick::ops, tick_private_trait_base_ ## name::type
 
